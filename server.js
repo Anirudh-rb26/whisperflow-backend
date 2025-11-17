@@ -31,7 +31,7 @@ const TEMP_DIR = path.resolve(__dirname, "temp");
 const RENDERS_DIR = path.resolve(__dirname, "renders");
 
 const PERPLEXITY_AVAILABLE = process.env.PERPLEXITY_API_KEY;
-const backendURL = process.env.BACKEND_URL;
+const backendURL = process.env.NEXT_PUBLIC_BACKEND_SERVER_URL;
 
 fs.ensureDirSync(UPLOADS_DIR);
 fs.ensureDirSync(TEMP_DIR);
