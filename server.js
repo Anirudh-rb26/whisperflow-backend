@@ -31,6 +31,7 @@ const TEMP_DIR = path.resolve(__dirname, "temp");
 const RENDERS_DIR = path.resolve(__dirname, "renders");
 
 const PERPLEXITY_AVAILABLE = process.env.PERPLEXITY_API_KEY;
+const backendURL = process.env.BACKEND_URL;
 
 fs.ensureDirSync(UPLOADS_DIR);
 fs.ensureDirSync(TEMP_DIR);
@@ -238,7 +239,7 @@ app.post("/api/render/video", async (req, res) => {
       success: true,
       renderId: result.renderId,
       downloadPath: result.downloadPath,
-      downloadUrl: `http://localhost:8000${result.downloadPath}`,
+      downloadUrl: `${backendURL}${result.downloadPath}`,
       expiresAt: result.expiresAt,
       fileSize: result.fileSize,
       cliCommand, // Include the CLI command
@@ -317,7 +318,7 @@ async function startServer() {
   }
 
   app.listen(PORT, () => {
-    console.log(`🚀 Server listening at http://localhost:${PORT}`);
+    console.log(`🚀 Server listening at ${backendURL}:${PORT}`);
   });
 }
 
