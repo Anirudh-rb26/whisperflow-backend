@@ -1,0 +1,37 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Anirudh-rb26/whisperflow-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Anirudh-rb26/whisperflow-backend/issues"
+  },
+  "homepage": "https://github.com/Anirudh-rb26/whisperflow-backend#readme",
+  "dependencies": {
+    "@remotion/bundler": "^4.0.375",
+    "@remotion/media": "^4.0.375",
+    "@remotion/renderer": "^4.0.375",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "fs-extra": "^11.3.2",
+    "multer": "^2.0.2",
+    "node-fetch": "^2.7.0",
+    "openai": "^6.9.0",
+    "path": "^0.12.7",
+    "webpack": "^5.102.1",
+    "webpack-cli": "^6.0.1"
+  }
+}
