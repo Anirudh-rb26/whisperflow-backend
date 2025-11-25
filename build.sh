@@ -10,16 +10,19 @@ if [ ! -f "model/whisper-cli" ]; then
   git clone https://github.com/ggml-org/whisper.cpp.git temp-whisper
   cd temp-whisper
   
-  # Use CMake build (new method)
   cmake -B build
   cmake --build build --config Release
   
   cd ..
   mkdir -p model
   
-  # ✅ FIX: Correct binary location
+  # Copy the CLI binary
   cp temp-whisper/build/bin/whisper-cli model/whisper-cli
   chmod +x model/whisper-cli
+  
+  # ✅ FIX: Copy the shared libraries too
+  cp temp-whisper/build/src/libwhisper.so* model/ 2>/dev/null || true
+  cp temp-whisper/build/ggml/src/libggml*.so* model/ 2>/dev/null || true
   
   rm -rf temp-whisper
   

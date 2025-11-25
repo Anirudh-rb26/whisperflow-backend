@@ -10,6 +10,8 @@ const WHISPER_EXECUTABLE =
 
 const WHISPER_MODEL = path.resolve(__dirname, "model", "ggml-tiny.bin");
 
+const MODEL_DIR = path.resolve(__dirname, "model");
+
 function convertToWav(inputPath, outputPath) {
   return new Promise((resolve, reject) => {
     const cmd = "ffmpeg";
@@ -58,7 +60,14 @@ async function transcribeWithWhisper(inputFile, language, outputPrefix) {
     const child = execFile(
       WHISPER_EXECUTABLE,
       args,
-      { timeout: 300000, cwd: "." },
+      {
+        timeout: 300000,
+        cwd: ".",
+        env: {
+          ...process.env,
+          LD_LIBRARY_PATH: `${MODEL_DIR}:${process.env.LD_LIBRARY_PATH || ""}`,
+        },
+      },
       async (error, stdout, stderr) => {
         if (error) {
           console.error("❌ Whisper.cpp error:", stderr || stdout || error.message);
