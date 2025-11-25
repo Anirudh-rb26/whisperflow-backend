@@ -31,7 +31,13 @@ const TEMP_DIR = path.resolve(__dirname, "temp");
 const RENDERS_DIR = path.resolve(__dirname, "renders");
 
 const PERPLEXITY_AVAILABLE = process.env.PERPLEXITY_API_KEY;
-const backendURL = process.env.NEXT_PUBLIC_BACKEND_SERVER_URL;
+
+// FIX: Define PORT. Try to get it from ENV, otherwise default to 8000.
+// In production (e.g., Render.com), process.env.PORT is automatically set and crucial to use.
+const PORT = process.env.PORT || 8000;
+
+// Use the ENV variable if set, otherwise fallback to localhost construction
+const backendURL = process.env.NEXT_PUBLIC_BACKEND_SERVER_URL || `http://localhost:${PORT}`;
 
 fs.ensureDirSync(UPLOADS_DIR);
 fs.ensureDirSync(TEMP_DIR);
@@ -239,10 +245,11 @@ app.post("/api/render/video", async (req, res) => {
       success: true,
       renderId: result.renderId,
       downloadPath: result.downloadPath,
+      // Use the calculated backendURL here to ensure correct download links
       downloadUrl: `${backendURL}${result.downloadPath}`,
       expiresAt: result.expiresAt,
       fileSize: result.fileSize,
-      cliCommand, // Include the CLI command
+      cliCommand,
     });
   } catch (err) {
     console.error("❌ Render error:", err.message);
@@ -307,6 +314,7 @@ async function initializeRemotionBundle() {
     isBundling = false;
   }
 }
+
 async function startServer() {
   try {
     await initializeRemotionBundle();
@@ -314,8 +322,10 @@ async function startServer() {
     console.warn("⚠️ Remotion bundle will be initialized on first render request");
   }
 
+  // PORT is now defined at the top of the file
   app.listen(PORT, () => {
-    console.log(`🚀 Server listening at ${backendURL}`);
+    console.log(`🚀 Server listening on port ${PORT}`);
+    console.log(`🔗 Public URL: ${backendURL}`);
   });
 }
 
