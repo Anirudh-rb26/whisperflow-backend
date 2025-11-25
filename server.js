@@ -295,7 +295,7 @@ async function initializeRemotionBundle() {
   if (remotionBundle || isBundling) return remotionBundle;
   isBundling = true;
   try {
-    const entryPoint = path.resolve(__dirname, "../frontend/remotion.root.tsx");
+    const entryPoint = path.resolve(__dirname, "remotion", "video.tsx");
     remotionBundle = await bundleRemotionProject({ entryPoint });
     console.log("✅ Remotion bundle initialized");
     return remotionBundle;
@@ -307,9 +307,6 @@ async function initializeRemotionBundle() {
     isBundling = false;
   }
 }
-
-const PORT = process.env.PORT || 8000;
-
 async function startServer() {
   try {
     await initializeRemotionBundle();
@@ -318,7 +315,7 @@ async function startServer() {
   }
 
   app.listen(PORT, () => {
-    console.log(`🚀 Server listening at ${backendURL}:${PORT}`);
+    console.log(`🚀 Server listening at ${backendURL}`);
   });
 }
 

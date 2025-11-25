@@ -32,6 +32,10 @@
     "openai": "^6.9.0",
     "path": "^0.12.7",
     "webpack": "^5.102.1",
-    "webpack-cli": "^6.0.1"
+    "webpack-cli": "^6.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "remotion": "^4.0.0",
+    "@remotion/captions": "^4.0.0"
   }
 }

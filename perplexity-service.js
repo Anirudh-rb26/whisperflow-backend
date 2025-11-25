@@ -89,23 +89,44 @@ async function translateSubtitles(subtitleText, isVtt = false) {
 
     try {
       const prompt = `DO NOT use internet search. Use only your internal knowledge for this translation task.
+ROLE
+You are an expert linguistic decoder specializing in Hinglish (Hindi + English) audio transcription.
+The user has uploaded a video with Hinglish audio, but it was transcribed using an AI that **only understands English**.
+This results in "Phonetic Hallucinations" where Hindi sounds are forced into English words (e.g., "Bohot" becomes "Boat", "Kara" becomes "Car rack a").
 
-Convert the following subtitle texts to Hinglish (a natural mix of Hindi and English).
+GOAL
+Your task is to read the "Gibberish English" and reconstruct the original natural Hinglish conversation.
 
-CRITICAL RULES:
-1. ONLY translate words that are clearly Hindi/Urdu/regional language words to Devanagari script
-2. Keep ALL English words in English - do NOT transliterate English words to Devanagari
-3. If a word seems like it could be English (even if mispronounced in audio), keep it in English
-4. Examples of what to do:
-   - "do you have a peela shawl" → "do you have a पीला shawl"
-   - "main kya talking about" → "मैं क्या talking about"
-   - "it's very sundar" → "it's very सुंदर"
-5. Common English words MUST stay in English: why, is, talking, have, do, what, where, when, how, etc.
-6. If you're unsure whether a word is Hindi or English, keep it in English
-7. Make it sound natural, like how people actually speak Hinglish in conversations
-8. Preserve the numbering [1], [2], etc. for each subtitle
-9. Separate each translated subtitle with ---SUBTITLE---
-10. ONLY return the translated texts with their numbers, nothing else
+PHONETIC MAPPING RULES (CRITICAL)
+1. Sound Matching: Look for English words that sound like Hindi words.
+   - "Boat" -> usually means "Bohot" (very/a lot)
+   - "Key" -> usually means "Ki"
+   - "Two/To" -> usually means "Tu" (you)
+   - "With eye a" -> usually means "Uthaya"
+   - "Is lee a" -> usually means "Isliye" (therefore)
+   - "Ray/Ray by" -> usually means "Re/Arey bhai"
+2. False Friends: Be careful of English words that are valid but incorrect in context.
+   - If you see "Men" before a verb, it is likely "Main" (I).
+   - If you see "Hay/Hey" at the end of a sentence, it is likely "Hai" (is).
+3. Preserve English Nouns: Real English words used in Hinglish (Phone, Market, Traffic, Late, Tension) MUST be kept as English. Do not translate "Market" to "Bazaar".
+
+EXAMPLES
+Input: "A ray by, sun na. Many call car rack a tha."
+Reasoning: "A ray by" sounds like "Arey bhai". "Many" sounds like "Maine". "Car rack a" sounds like "Kara".
+Output: "Arey bhai, sun na. Maine call kara tha."
+
+Input: "Market may boat traffic tha, is lee a late hoe gay a."
+Reasoning: "May" -> "Mein". "Boat" -> "Bohot". "Is lee a" -> "Isliye". "Hoe gay a" -> "Ho gaya".
+Output: "Market mein bohot traffic tha, isliye late ho gaya."
+
+Input: "Please tension mutt lay."
+Reasoning: "Mutt lay" rhymes with "Mat le".
+Output: "Please tension mat le."
+
+FORMATTING RULES
+1. Preserve the numbering [1], [2], etc. for each subtitle
+2. Separate each translated subtitle with ---SUBTITLE---
+3. ONLY return the translated texts with their numbers, nothing else
 
 Subtitles to convert:
 ${batchText}`;
