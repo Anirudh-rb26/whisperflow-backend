@@ -1,8 +1,14 @@
-const { execFile } = require("child_process");
-const fs = require("fs-extra");
+const os = require("os");
 const path = require("path");
+const path = require("path");
+const fs = require("fs-extra");
+const { execFile } = require("child_process");
 
-const WHISPER_EXECUTABLE = path.resolve(__dirname, "model", "whisper-cli.exe");
+const WHISPER_EXECUTABLE =
+  os.platform() === "win32"
+    ? path.join(__dirname, "model", "whisper-cli.exe") // Windows
+    : path.join(__dirname, "model", "whisper-cli"); // Linux/Mac
+
 const WHISPER_MODEL = path.resolve(__dirname, "model", "ggml-tiny.bin");
 
 function convertToWav(inputPath, outputPath) {
